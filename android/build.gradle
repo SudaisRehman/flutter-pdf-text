@@ -2,14 +2,14 @@ group 'dev.aluc.pdf_text'
 version '1.0-SNAPSHOT'
 
 buildscript {
-    ext.kotlin_version = '1.5.20'
+    ext.kotlin_version = '1.8.10' // Updated Kotlin version
     repositories {
         google()
-        jcenter()
+        mavenCentral() // Replaced jcenter() with mavenCentral()
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.0'
+        classpath 'com.android.tools.build:gradle:8.0.2' // Updated Gradle plugin
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
@@ -17,7 +17,7 @@ buildscript {
 rootProject.allprojects {
     repositories {
         google()
-        jcenter()
+        mavenCentral() // Replaced jcenter() with mavenCentral()
     }
 }
 
@@ -25,21 +25,24 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 33 // Updated compileSdkVersion to the latest stable version
+
+    defaultConfig {
+        minSdkVersion 21 // Increased minSdkVersion for better compatibility
+        targetSdkVersion 33 // Added targetSdkVersion
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    lintOptions {
+        disable 'InvalidPackage'
+    }
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
-    defaultConfig {
-        minSdkVersion 16
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-    }
-    lintOptions {
-        disable 'InvalidPackage'
-    }
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'com.tom_roush:pdfbox-android:1.8.10.1'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version" // Updated Kotlin dependency
+    implementation 'com.tom_roush:pdfbox-android:1.8.10.1' // Retained PDFBox dependency
 }
